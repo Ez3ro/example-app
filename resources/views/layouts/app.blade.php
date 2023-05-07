@@ -1,638 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>streaming_live - The last Admin template you'll ever need</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="../resources/views/layouts/dist/css/streaming_live.css" media="screen" />
-    <link rel="stylesheet" href="./dist/fontawesome/css/fontawesome.css" media="all">
-    <link href="../resources/views/layouts/dist/fontawesome/css/brands.css" rel="stylesheet" media="all">
-    <link href="/resources/views/layouts/dist/fontawesome/css/solid.css" rel="stylesheet" media="all">
-    /views/layouts/dist/fontawesome/css/solid.css
-  </head>
+<html lang="{{ str_replace ('_', '-', app()->getLocale())}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nacomex</title>
+    <meta name="author" content="">
+    <meta name="description" content="">
 
-  <body>
-    <div class="streaming_live-container">
-        <nav class="navbar navbar-expand justify-content-between fixed-top">
-            <a class="navbar-brand mb-0 h1 d-none d-md-block" href="/index.html">
-                <img src="./views/layouts/dist/media/images/nacomex-logo.svg" class="navbar-brand-image d-inline-block align-top mr-2" alt="Nacomex">
+    <!-- Tailwind -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+
+        .font-family-karla {
+            font-family: karla;
+        }
+    </style>
+
+    <!-- AlpineJS -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+</head>
+<body class="bg-white font-family-karla">
+
+    <!-- Top Bar Nav -->
+    <nav class="w-full py-4 bg-blue-800 shadow">
+        <div class="w-full container mx-auto flex flex-wrap items-center justify-between">
+
+            <nav>
+                <ul class="flex items-center justify-between font-bold text-sm text-white uppercase no-underline">
+                    <li><a class="hover:text-gray-200 hover:underline px-4" href="#">Shop</a></li>
+                    <li><a class="hover:text-gray-200 hover:underline px-4" href="#">About</a></li>
+                </ul>
+            </nav>
+
+            <div class="flex items-center text-lg no-underline text-white pr-6">
+                <a class="" href="#">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a class="pl-6" href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a class="pl-6" href="#">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a class="pl-6" href="#">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+        </div>
+
+    </nav>
+
+    <!-- Text Header -->
+    <header class="w-full container mx-auto">
+        <div class="flex flex-col items-center py-12">
+            <a class="font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl" href="#">
+                Minimal Blog
             </a>
-            <form class="form-inline form-quicksearch d-none d-md-block mx-auto">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-icon">
-                            <i data-feather="search"></i>
-                        </div>
-                    </div>
-                    <input type="text" class="form-control" id="search" placeholder="Type to search...">
-                </div>
-            </form>
-            <div class="d-flex flex-1 d-block d-md-none">
-                <a href="#" class="sidebar-toggle ml-3">
-                    <i data-feather="menu"></i>
+            <p class="text-lg text-gray-600">
+                Lorem Ipsum Dolor Sit Amet
+            </p>
+        </div>
+    </header>
+
+    <!-- Topic Nav -->
+    <nav class="w-full py-4 border-t border-b bg-gray-100" x-data="{ open: false }">
+        <div class="block sm:hidden">
+            <a
+                href="#"
+                class="block md:hidden text-base font-bold uppercase text-center flex justify-center items-center"
+                @click="open = !open"
+            >
+                Topics <i :class="open ? 'fa-chevron-down': 'fa-chevron-up'" class="fas ml-2"></i>
+            </a>
+        </div>
+        <div :class="open ? 'block': 'hidden'" class="w-full flex-grow sm:flex sm:items-center sm:w-auto">
+            <div class="w-full container mx-auto flex flex-col sm:flex-row items-center justify-center text-sm font-bold uppercase mt-0 px-6 py-2">
+                <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Technology</a>
+                <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Automotive</a>
+                <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Finance</a>
+                <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Politics</a>
+                <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Culture</a>
+                <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">Sports</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mx-auto flex flex-wrap py-6">
+
+        <!-- Posts Section -->
+        {{ $slot }}
+
+        <!-- Sidebar Section -->
+        <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
+
+            <div class="w-full bg-white shadow flex flex-col my-4 p-6">
+                <p class="text-xl font-semibold pb-5">About Us</p>
+                <p class="pb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mattis est eu odio sagittis tristique. Vestibulum ut finibus leo. In hac habitasse platea dictumst.</p>
+                <a href="#" class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-4">
+                    Get to know us
                 </a>
             </div>
-            <ul class="navbar-nav d-flex justify-content-end mr-2">
 
-                <!-- Notificatoins -->
-                <li class="nav-item dropdown d-flex align-items-center mr-2">
-                    <a class="nav-link nav-link-notifications" id="dropdownNotifications" data-toggle="dropdown" href="#">
-                        <i class="oi oi-bell display-inline-block align-middle"></i>
-                        <span class="nav-link-notification-number">3</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-notifications" aria-labelledby="dropdownNotifications">
-                        <div class="notifications-header d-flex justify-content-between align-items-center">
-                            <span class="notifications-header-title"> Notifications </span>
-                            <a href="#" class="d-flex">
-                            <small>Mark all as read</small>
-                            </a>
-                        </div>
-                        <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action unread">
-                                <p class="mb-1">Invitation for <strong>Lunch</strong> on <strong>Jan 12th 2018</strong> by <strong>Laura</strong></p>
-                                <div class="mb-1">
-                                    <button type="button" class="btn btn-primary btn-sm">Accept invite</button>
-                                    <button type="button" class="btn btn-outline-danger btn-sm">Decline</button>
-                                </div>
-                                <small>1 hour ago</small>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <p class="mb-1">
-                                    <strong class="text-success">Goal completed</strong>
-                                    <br />1,000 new members today
-                                </p>
-                                <small>3 days ago</small>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <p class="mb-1 text-danger">
-                                    <strong>System error detected</strong>
-                                </p>
-                                <small>3 days ago</small>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <p class="mb-1">Your task <strong>Design Draft</strong> is due today. </p>
-                                <small>4 days ago</small>
-                            </a>
-                        </div>
-                        <div class="notifications-footer text-center">
-                            <a href="#">
-                                <small>View all notifications</small>
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <!-- Notifications -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link avatar-with-name" id="navbarDropdownMenuLink" data-toggle="dropdown" href="#">
-                        <img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/128.jpg" class="d-inline-block align-top" alt="">
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">My Profile</a>
-                        <a class="dropdown-item" href="#">My Videos</a>
-                        <a class="dropdown-item" href="#">Go Live</a>
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger" href="#">Sign out</a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- expand-hover push -->
-        <!-- Sidebar -->
-        <div class="streaming_live-sidebar expand-hover push">
-            <ul class="sidebar-nav">
-                <li class="sidebar-nav-item">
-                    <a href="./index.html" class="sidebar-nav-link active">
-                        <span class="sidebar-nav-icon">
-                            <img src="./dist/media/menu-icons/home-01.svg">
-                        </span>
-                        <span class="sidebar-nav-name"> Home </span>
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="./layouts/allsports.html" class="sidebar-nav-link">
-                        <span class="sidebar-nav-icon">
-                            <img src="./dist/media/menu-icons/trophy-01.svg">
-                        </span>
-                        <span class="sidebar-nav-name"> All Sports </span>
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="./layouts/badminton.html" class="sidebar-nav-link">
-                        <span class="sidebar-nav-icon">
-                            <img src="./dist/media/menu-icons/badminton-01.svg">
-                        </span>
-                        <span class="sidebar-nav-name"> Badminton </span>
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="./layouts/baseball.html" class="sidebar-nav-link">
-                        <span class="sidebar-nav-icon">
-                            <img src="./dist/media/menu-icons/baseball-01.svg">
-                        </span>
-                        <span class="sidebar-nav-name"> Baseball </span>
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="./layouts/boxing.html" class="sidebar-nav-link">
-                        <span class="sidebar-nav-icon">
-                            <img src="./dist/media/menu-icons/boxing-01.svg">
-                        </span>
-                        <span class="sidebar-nav-name"> Boxing </span>
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="./layouts/esports.html" class="sidebar-nav-link">
-                        <span class="sidebar-nav-icon">
-                            <img src="./dist/media/menu-icons/esports-01.svg">
-                        </span>
-                        <span class="sidebar-nav-name"> eSports </span>
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="./layouts/futbol.html" class="sidebar-nav-link">
-                        <span class="sidebar-nav-icon">
-                            <img src="./dist/media/menu-icons/futbol-01.svg">
-                        </span>
-                        <span class="sidebar-nav-name"> Football </span>
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="./layouts/icehockey.html" class="sidebar-nav-link">
-                        <span class="sidebar-nav-icon">
-                            <img src="./dist/media/menu-icons/ice-hockey-01.svg">
-                        </span>
-                        <span class="sidebar-nav-name"> Ice Hockey </span>
-                    </a>
-                </li>
-                <li class="sidebar-nav-item">
-                    <a href="./layouts/volleyball.html" class="sidebar-nav-link">
-                        <span class="sidebar-nav-icon">
-                            <img src="./dist/media/menu-icons/volleyball-01.svg">
-                        </span>
-                        <span class="sidebar-nav-name"> Volleyball </span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <!-- Sidebar End -->
-
-        <!-- streaming_live-content-aside -->
-        <div class="streaming_live-content">
-            <!-- <div class="streaming_live-aside"></div> -->
-            <div class="streaming_live-main-content">
-                <div class="container-fluid">
-                    <!-- BreadCrumb -->
-                    <nav aria-label="breadcrumb" role="navigation">
-                        <ol class="breadcrumb streaming_live-page-breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="./index.html">Home</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">Live Streaming</li>
-                        </ol>
-                    </nav>
-                    <div class="pb-3">
-                        <h1>Live Streaming Now</h1>
-                    </div>
-                    <!-- #livestreaming -->
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <div class="card-header-title">
-                                        <div class="user1">
-                                            <div class="user1_pic">
-                                                <img src="https://i.imgur.com/w4Mp4ny.jpg" alt="user">
-                                            </div>
-                                            <div class="user1_details">
-                                                <p>
-                                                    <b>Richard Miles</b>
-                                                </p>
-                                                <p>
-                                                    <small>1M subscribers</small>
-                                                </p>
-                                            </div>
-                                            <div class="live_user1">
-                                                <p>
-                                                    <i class="fa-solid fa-tower-broadcast"></i> Live
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- <nav class="card-header-actions">
-                                        <a class="card-header-action" data-toggle="collapse" href="#card1" aria-expanded="false" aria-controls="card1">
-                                            <i data-feather="minus-circle"></i>
-                                        </a>
-                                        <div class="dropdown">
-                                            <a class="card-header-action" href="#" role="button" id="card1Settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i data-feather="settings"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="card1Settings">
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="card-header-action">
-                                            <i data-feather="x-circle"></i>
-                                        </a>
-                                    </nav> -->
-                                </div>
-                            </div>
-                            <div class="card collapse show" id="live_stream_video">
-                                <div class="card-body collapse show" id="card1">
-                                    <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls></video>
-                                    
-                                    <!-- <div class="card-body collapse show" id="card1"><video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop=""></video></div> -->
-                                    <div class="card-body">
-                                        <div class="card-video-details">
-                                            <a href="./layouts/view.html">
-                                                <h2 class="live-stream-title" style="color: #000;">MLS All Stars vs Liga MX All Stars Live</h2>
-                                            </a>
-                                            <p>
-                                                <span class="live_date">May 4, 2023</span>
-                                                <span class="live-views">19,255 views</span>
-                                            </p>
-                                            <p class="live-desc">Morocco continue to make history and get their first-ever win over Brazil after defeating them 2-1.</p>
-                                            <span class="tags">#morocco #brazil #casemiro</span>
-                                            <div class="live_links">
-                                                <button type="button" class="live_links1">Link 1</button>
-                                                <button type="button" class="live_links2">Link 2</button>
-                                                <button type="button" class="live_links3">Link 3</button>
-                                                <button type="button" class="live_links4">Link 4</button>
-                                            </div>
-                                            <div class="social_share">
-                                                <a href="#">
-                                                    <i class="fa-solid fa-square-share-nodes"></i> Share
-                                                </a>
-                                                <a href="#">
-                                                    <i class="fa-solid fa-square-share-nodes"></i> Share
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="live-stream-slider">
-                                <div class="row mx-auto my-auto justify-content-center">
-                                    <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
-                                        <div class="carousel-inner" role="listbox">
-                                            <div class="carousel-item active">
-                                                <div class="col xl-2 col-lg-3 col-md-4">
-                                                    <div class="card" style="background-color: transparent; border: 0;">
-                                                        <div class="card-vid">
-                                                            <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                                                        </div>
-                                                        <div class="card-body" style="border-bottom: 0; padding: 0;">
-                                                            <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                                                        </div>
-                                                    </div>
-                                                </div> 
-                                            </div>
-                                        <div class="carousel-item">
-                                            <div class="col xl-2 col-lg-3 col-md-4">
-                                                <div class="card" style="background-color: transparent; border: 0;">
-                                                    <div class="card-vid">
-                                                        <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                                                    </div>
-                                                    <div class="card-body" style="border-bottom: 0; padding: 0;">
-                                                        <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                        </div>
-                                        <div class="carousel-item">
-                                            <div class="col xl-2 col-lg-3 col-md-4">
-                                                <div class="card" style="background-color: transparent; border: 0;">
-                                                    <div class="card-vid">
-                                                        <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                                                    </div>
-                                                    <div class="card-body" style="border-bottom: 0; padding: 0;">
-                                                        <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                        </div>
-                                        <div class="carousel-item">
-                                            <div class="col xl-2 col-lg-3 col-md-4">
-                                                <div class="card" style="background-color: transparent; border: 0;">
-                                                    <div class="card-vid">
-                                                        <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                                                    </div>
-                                                    <div class="card-body" style="border-bottom: 0; padding: 0;">
-                                                        <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                        </div>
-                                        <div class="carousel-item">
-                                            <div class="col xl-2 col-lg-3 col-md-4">
-                                                <div class="card" style="background-color: transparent; border: 0;">
-                                                    <div class="card-vid">
-                                                        <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                                                    </div>
-                                                    <div class="card-body" style="border-bottom: 0; padding: 0;">
-                                                        <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                        </div>
-                                        <div class="carousel-item">
-                                            <div class="col xl-2 col-lg-3 col-md-4">
-                                                <div class="card" style="background-color: transparent; border: 0;">
-                                                    <div class="card-vid">
-                                                        <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                                                    </div>
-                                                    <div class="card-body" style="border-bottom: 0; padding: 0;">
-                                                        <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                        </div>
-                                    </div>
-                                    <a class="carousel-control-prev w-auto" href="#recipeCarousel" role="button" data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next w-auto" href="#recipeCarousel" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="recommended-panel">
-                            <div class="card">
-                                <div class="card-header"> Recommended Channels </div>
-                                    <div class="card-wrapper">
-                                        <div class="card-body-recommended">
-                                            <div class="notification-list notification-list--unread">
-                                                <div class="notification-list_img">
-                                                    <img src="https://i.imgur.com/w4Mp4ny.jpg" alt="user">
-                                                </div>
-                                                <div class="notification-list_detail">
-                                                    <p>
-                                                        <b>Richard Miles</b>
-                                                    </p>
-                                                    <p>
-                                                        <small>1M subscribers</small>
-                                                    </p>
-                                                </div>
-                                                <div class="notification-list_subscribe-btn">
-                                                    <button class="subscribe-btn">
-                                                    <i class="fa-solid fa-bell"></i> Subscribe </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body-recommended">
-                                            <div class="notification-list notification-list--unread">
-                                                <div class="notification-list_img">
-                                                    <img src="https://i.imgur.com/w4Mp4ny.jpg" alt="user">
-                                                </div>
-                                                <div class="notification-list_detail">
-                                                    <p>
-                                                        <b>Richard Miles</b>
-                                                    </p>
-                                                    <p>
-                                                        <small>1M subscribers</small>
-                                                    </p>
-                                                </div>
-                                                <div class="notification-list_subscribe-btn">
-                                                    <button class="subscribe-btn">
-                                                    <i class="fa-solid fa-bell"></i> Subscribe </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body-recommended">
-                                            <div class="notification-list notification-list--unread">
-                                                <div class="notification-list_img">
-                                                    <img src="https://i.imgur.com/w4Mp4ny.jpg" alt="user">
-                                                </div>
-                                                <div class="notification-list_detail">
-                                                    <p>
-                                                        <b>Richard Miles</b>
-                                                    </p>
-                                                    <p>
-                                                        <small>1M subscribers</small>
-                                                    </p>
-                                                </div>
-                                                <div class="notification-list_subscribe-btn">
-                                                    <button class="subscribe-btn">
-                                                    <i class="fa-solid fa-bell"></i> Subscribe </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body-recommended">
-                                            <div class="notification-list notification-list--unread">
-                                                <div class="notification-list_img">
-                                                    <img src="https://i.imgur.com/w4Mp4ny.jpg" alt="user">
-                                                </div>
-                                                <div class="notification-list_detail">
-                                                    <p>
-                                                        <b>Richard Miles</b>
-                                                    </p>
-                                                    <p>
-                                                        <small>1M subscribers</small>
-                                                    </p>
-                                                </div>
-                                                <div class="notification-list_subscribe-btn">
-                                                    <button class="subscribe-btn">
-                                                    <i class="fa-solid fa-bell"></i> Subscribe </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body-recommended">
-                                            <div class="notification-list notification-list--unread">
-                                                <div class="notification-list_img">
-                                                    <img src="https://i.imgur.com/w4Mp4ny.jpg" alt="user">
-                                                </div>
-                                                <div class="notification-list_detail">
-                                                    <p>
-                                                        <b>Richard Miles</b>
-                                                    </p>
-                                                    <p>
-                                                        <small>1M subscribers</small>
-                                                    </p>
-                                                </div>
-                                                <div class="notification-list_subscribe-btn">
-                                                    <button class="subscribe-btn">
-                                                    <i class="fa-solid fa-bell"></i> Subscribe </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body-recommended">
-                                            <div class="notification-list notification-list--unread">
-                                                <div class="notification-list_img">
-                                                    <img src="https://i.imgur.com/w4Mp4ny.jpg" alt="user">
-                                                </div>
-                                                <div class="notification-list_detail">
-                                                    <p>
-                                                        <b>Richard Miles</b>
-                                                    </p>
-                                                    <p>
-                                                        <small>1M subscribers</small>
-                                                    </p>
-                                                </div>
-                                                <div class="notification-list_subscribe-btn">
-                                                    <button class="subscribe-btn">
-                                                    <i class="fa-solid fa-bell"></i> Subscribe </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body-recommended">
-                                            <div class="notification-list notification-list--unread">
-                                                <div class="notification-list_img">
-                                                    <img src="https://i.imgur.com/w4Mp4ny.jpg" alt="user">
-                                                </div>
-                                                <div class="notification-list_detail">
-                                                    <p>
-                                                        <b>Richard Miles</b>
-                                                    </p>
-                                                    <p>
-                                                        <small>1M subscribers</small>
-                                                    </p>
-                                                </div>
-                                                <div class="notification-list_subscribe-btn">
-                                                    <button class="subscribe-btn">
-                                                    <i class="fa-solid fa-bell"></i> Subscribe </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <a href="#" class="btn-viewall">View All</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="w-full bg-white shadow flex flex-col my-4 p-6">
+                <p class="text-xl font-semibold pb-5">Instagram</p>
+                <div class="grid grid-cols-3 gap-3">
+                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=1">
+                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=2">
+                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=3">
+                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=4">
+                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=5">
+                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=6">
+                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=7">
+                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=8">
+                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=9">
                 </div>
+                <a href="#" class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-6">
+                    <i class="fab fa-instagram mr-2"></i> Follow @dgrzyb
+                </a>
             </div>
-        </div>
+
+        </aside>
+
     </div>
-    <section class="recent-stream">
-        <div class="container-fluid">
-            <h2>RECENT STREAM VIDEOS</h2>
-            <div class="recent-stream-wrapper">
-                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                    <div class="card">
-                        <div class="card-vid">
-                            <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                            <p class="card-date">May 5, 2021</p>
-                            <span class="card-tags">futbol</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                    <div class="card">
-                        <div class="card-vid">
-                            <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                            <p class="card-date">May 5, 2021</p>
-                            <span class="card-tags">futbol</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                    <div class="card">
-                        <div class="card-vid">
-                            <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                            <p class="card-date">May 5, 2021</p>
-                            <span class="card-tags">futbol</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                    <div class="card">
-                        <div class="card-vid">
-                            <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                            <p class="card-date">May 5, 2021</p>
-                            <span class="card-tags">futbol</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col xl-2 col-lg-3 col-md-4 col-sm-6">
-                    <div class="card">
-                        <div class="card-vid">
-                            <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                            <p class="card-date">May 5, 2021</p>
-                            <span class="card-tags">futbol</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                    <div class="card">
-                        <div class="card-vid">
-                            <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                            <p class="card-date">May 5, 2021</p>
-                            <span class="card-tags">futbol</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                    <div class="card">
-                        <div class="card-vid">
-                            <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                            <p class="card-date">May 5, 2021</p>
-                            <span class="card-tags">futbol</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                    <div class="card">
-                        <div class="card-vid">
-                            <video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop="" controls>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">MLS All Stars vs Liga MX All Stars Live</h5>
-                            <p class="card-date">May 5, 2021</p>
-                            <span class="card-tags">futbol</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+    <footer class="w-full border-t bg-white pb-12">
+        <div
+            class="relative w-full flex items-center invisible md:visible md:pb-12"
+            x-data="getCarouselData()"
+        >
+            <button
+                class="absolute bg-blue-800 hover:bg-blue-700 text-white text-2xl font-bold hover:shadow rounded-full w-16 h-16 ml-12"
+                x-on:click="decrement()">
+                &#8592;
+            </button>
+            <template x-for="image in images.slice(currentIndex, currentIndex + 6)" :key="images.indexOf(image)">
+                <img class="w-1/6 hover:opacity-75" :src="image">
+            </template>
+            <button
+                class="absolute right-0 bg-blue-800 hover:bg-blue-700 text-white text-2xl font-bold hover:shadow rounded-full w-16 h-16 mr-12"
+                x-on:click="increment()">
+                &#8594;
+            </button>
         </div>
-    </section>
-    <footer>
-        <div class="row">
-            <div class="col d-flex align-items-center justify-content-center footer-main">
-                <a href="index.html">
-                    <img src="./dist/media/images/nacomex-logo.svg" alt="nacomex">
-                </a>
-                <p class="footer-text">© 2023 <a href="index.html">nacomex</a>. All rights reserved.</p>
+        <div class="w-full container mx-auto flex flex-col items-center">
+            <div class="flex flex-col md:flex-row text-center md:text-left md:justify-between py-6">
+                <a href="#" class="uppercase px-3">About Us</a>
+                <a href="#" class="uppercase px-3">Privacy Policy</a>
+                <a href="#" class="uppercase px-3">Terms & Conditions</a>
+                <a href="#" class="uppercase px-3">Contact Us</a>
             </div>
+            <div class="uppercase pb-6">&copy; myblog.com</div>
         </div>
     </footer>
-    <!-- If you prefer jQuery these are the required scripts -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-    <script src="./dist/js/vendor.js"></script>
-    <script src="./dist/js/streaming_live.js"></script>
-    <!-- If you prefer vanilla JS these are the only required scripts -->
-    <!-- script src="./dist/js/vendor.js"></script><script src="./dist/js/streaming_live.vanilla.js"></script-->
-  </body>
+
+    <script>
+        function getCarouselData() {
+            return {
+                currentIndex: 0,
+                images: [
+                    'https://source.unsplash.com/collection/1346951/800x800?sig=1',
+                    'https://source.unsplash.com/collection/1346951/800x800?sig=2',
+                    'https://source.unsplash.com/collection/1346951/800x800?sig=3',
+                    'https://source.unsplash.com/collection/1346951/800x800?sig=4',
+                    'https://source.unsplash.com/collection/1346951/800x800?sig=5',
+                    'https://source.unsplash.com/collection/1346951/800x800?sig=7',
+                    'https://source.unsplash.com/collection/1346951/800x800?sig=8',
+                    'https://source.unsplash.com/collection/1346951/800x800?sig=9',
+                ],
+                increment() {
+                    this.currentIndex = this.currentIndex === this.images.length - 6 ? 0 : this.currentIndex + 1;
+                },
+                decrement() {
+                    this.currentIndex = this.currentIndex === this.images.length - 6 ? 0 : this.currentIndex - 1;
+                },
+            }
+        }
+    </script>
+
+</body>
 </html>
