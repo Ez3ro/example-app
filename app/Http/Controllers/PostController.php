@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -14,9 +15,9 @@ class PostController extends Controller
     {
         $posts = Post::query()
         ->where('active', '=', 1)
-        ->where('published_at', '!=', 'NULL')
+        ->whereDate('published_at', '<', Carbon::now())
         ->orderBy('published_at', 'desc')
-        ->paginate();
+        ->paginate(5);
 
         return view('home', compact('posts'));
     }
