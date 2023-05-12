@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PostController extends Controller
 {
@@ -15,11 +17,15 @@ class PostController extends Controller
     {
         $posts = Post::query()
         ->where('active', '=', 1)
-        ->whereDate('published_at', '<', Carbon::now())
         ->orderBy('published_at', 'desc')
-        ->paginate(5);
+        ->paginate(1);
 
-        return view('home', compact('posts'));
+        $recents = Post::query()
+        ->where('active', '=', 1)
+        ->orderBy('published_at', 'desc')
+        ->paginate(100);
+
+        return view('home', compact('posts', 'recents'));
     }
 
     /**
@@ -43,7 +49,29 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        if(!$post->active || $post->published_at > Carbon::now()){
+            throw new NotFoundHttpException();
+        }
+
+        $next = Post::query()
+        ->where('active', true )
+        ->whereDate('published_at', '<=', Carbon::now())
+        ->whereDate('published_at', '>', $post->published_at)
+        ->orderBy('published_at', 'asc')
+        ->limit(1)
+        ->first();
+
+        $prev = Post::query()
+        ->where('active', true )
+        ->whereDate('published_at', '<=', Carbon::now())
+        ->whereDate('published_at', '<', $post->published_at)
+        ->orderBy('published_at', 'desc')
+        ->limit(1)
+        ->first();
+
+
+        return view('post.view', compact('post', 'prev', 'next'));
+
     }
 
     /**
@@ -68,5 +96,22 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+    public function byCategory(category $category)
+    {
+        $posts = Post::query()
+        ->join('category_post', 'posts.id', '=', 'category_post.post_id')
+        ->where('category_post.category_id', '=', $category->id)
+        ->where('active', true)
+        ->whereDate('published_at', '<=', Carbon::now())
+        ->paginate(10);
+
+        $recents = Post::query()
+        ->where('active', '=', 1)
+        ->orderBy('published_at', 'desc')
+        ->paginate(100);
+
+        return view('home', compact('posts', 'recents'));
+        # code...
     }
 }

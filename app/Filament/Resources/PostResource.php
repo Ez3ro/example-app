@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use Closure;
 use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
+use Filament\Forms\Components\Placeholder;
 use App\Models\Post;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -14,6 +15,9 @@ use Filament\Tables;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+use Filament\Forms\Components\FileUpload;
+use Masterminds\HTML5;
 
 class PostResource extends Resource
 {
@@ -42,10 +46,16 @@ class PostResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(2048),]),
+
                     
-            
-            Forms\Components\Fileupload::make('thumbnail')
-            ->imagePreviewHeight('250')
+                    Forms\Components\TextInput::make('streamKey')
+                    ->required()
+                    ->maxLength(2048)
+                    ->extraInputAttributes(['readonly' => true])
+                    ->visibleOn('edit'),
+            Fileupload::make('thumbnail')
+            ->required()
+            ->imagePreviewHeight('200')
             ->loadingIndicatorPosition('left')
             ->panelAspectRatio('2:1')
             ->panelLayout('integrated')
@@ -56,8 +66,6 @@ class PostResource extends Resource
                 ->required(),
             Forms\Components\Toggle::make('active')
                 ->required(),
-            Forms\Components\DateTimePicker::make('published_at'),
-
             Forms\Components\Select::make('category_id')
                 ->multiple()
                 ->relationship('categories', 'title')
@@ -69,21 +77,23 @@ class PostResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+
             ->columns([
+                
                 Tables\Columns\ImageColumn::make('thumbnail'),
                 Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('streamKey'),
                 
                 Tables\Columns\IconColumn::make('active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('published_at')
                     ->dateTime(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -104,7 +114,6 @@ class PostResource extends Resource
         return [
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
-            'view' => Pages\ViewPost::route('/{record}'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
     }    

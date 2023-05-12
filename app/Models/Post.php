@@ -15,6 +15,7 @@ class Post extends Model
     protected $fillable= [
     'title', 
     'slug',
+    'streamKey',
     'thumbnail',
     'body',
     'active',

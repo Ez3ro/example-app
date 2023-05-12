@@ -1,13 +1,39 @@
-<article class="flex flex-col shadow my-4">
-    <!-- Article Image -->
-    <a  class="hover:opacity-75">
-        <video id="video" width="800" controls></video>
+
+    
+                <div class="card-header d-flex ">
+                    <div class="card-header-title">
+                        <div class="user1">
+                            <div class="user1_pic">
+                                <img src="https://i.imgur.com/w4Mp4ny.jpg" alt="user">
+                            </div>
+                            <div class="user1_details">
+                                <p>
+                                    <b>{{$post->user->name}}</b>
+                                </p>
+                                <p>
+                                    <small>Published on: {{$post->getFormattedDate()}}</small>
+                                </p>
+                            </div>
+                            <div class="live_user1">
+                                <p>
+                                    <i class="fa-solid fa-tower-broadcast"></i> Live
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            
+            <!-- video -->
+            <div class="card collapse show" id="live_stream_video">
+                <div class="card-body collapse show" id="card1">
+                    <video id="video" width="500" controls poster="/storage/{{$post->thumbnail}}" autoplay="" loop=""></video>
         <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
         <!-- Or if you want a more recent alpha version -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@alpha"></script> -->
         <script>
           var video = document.getElementById("video");
-          var videoSrc = "http://localhost:8080/hls/khiel.m3u8";
+          var videoSrc = "https://nacomex.ngrok.app/hls/{{ $post->streamKey }}.m3u8";
           if (Hls.isSupported()) {
             var hls = new Hls();
             hls.loadSource(videoSrc);
@@ -30,21 +56,42 @@
             video.src = videoSrc;
           }
         </script>
-        <img src="/storage/{{$post->thumbnail}}">
-    </a>
-    <div class="bg-white flex flex-col justify-start p-6">
-        @foreach ($post->categories as $category )
-            <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">{{$category->title}}</a>
-        @endforeach
-       
-        <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">{{$post->title}}</a>
+                    
+                    <!-- <div class="card-body collapse show" id="card1"><video src="https://codingyaar.com/wp-content/uploads/video-in-bootstrap-card.mp4" class="card-img-top" muted="" autoplay="" loop=""></video></div> -->
+                    <div class="card-body">
+                        <div class="card-video-details">
+                            <a href="{{ route('view', $post) }}">
+                                <h2 class="live-stream-title" style="color: #000;">{{$post->title}}</h2>
+                            </a>
+                            <p>
+                                <span class="live_date"> {{$post->getFormattedDate()}}</span>
+                                <!--<span class="live-views">19,255 views</span>-->
+                            </p>
+                            <p class="live-desc">{{$post->shortBody()}}</p>
+                            @foreach ($post->categories as $category )
+        
+                 <span class="tags">#{{$category->title}}</span> 
+                    
+                  
+                @endforeach
+                            
+                            <div class="social_share">
+                                
+                                    <i class="fa-solid fa-square-share-nodes"></i> <a href="{{ route('view', $post) }}" class="uppercase text-gray-800 hover:text-black">Watch Live <i class="fas fa-arrow-right"></i></a>
+                                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end vid -->
 
-        <p href="#" class="text-sm pb-3">
-            By <a href="#" class="font-semibold hover:text-gray-800">{{$post->user->name}}</a>, Published on: {{$post->getFormattedDate()}}
-        </p>
-        <a href="#" class="pb-6">
-            {{$post->shortBody()}}
-        </a>
-        <a href="#" class="uppercase text-gray-800 hover:text-black">Continue Reading <i class="fas fa-arrow-right"></i></a>
-    </div>
-</article>
+
+
+
+
+
+
+        
+    <!-- Article Image -->
+   
