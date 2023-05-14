@@ -17,13 +17,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Filament\Forms\Components\FileUpload;
+use Illuminate\Support\Facades\Auth;
 use Masterminds\HTML5;
+
 
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-status-online';
 
     protected static ?string $navigationGroup = 'Content';
 
@@ -46,6 +48,7 @@ class PostResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(2048),]),
+                    
 
                     
                     Forms\Components\TextInput::make('streamKey')
@@ -68,6 +71,7 @@ class PostResource extends Resource
                 ->required(),
             Forms\Components\Select::make('category_id')
                 ->multiple()
+                ->preload()
                 ->relationship('categories', 'title')
                 ->required(),])
                
@@ -116,5 +120,15 @@ class PostResource extends Resource
             'create' => Pages\CreatePost::route('/create'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function getEloquentQuery(): Builder
+{
+                // @ts-ignore
+    if(!Auth::user()->hasRole('admin')){
+        return parent::getEloquentQuery()->whereBelongsTo(auth()->user());
+    }
+     return parent::getEloquentQuery()->where('id', '>', 0);
+}
+ 
 }
