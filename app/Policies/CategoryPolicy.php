@@ -11,7 +11,7 @@ class CategoryPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user)
     {
         if ($user->hasPermissionTo('View Category')) {
             return true;
@@ -22,18 +22,15 @@ class CategoryPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, category $category): bool
+    public function view(User $user, category $category)
     {
-        if ($user->hasPermissionTo('View Category')) {
-            return true;
-        }
-        return false;
+       
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user)
     {
         if ($user->hasPermissionTo('Create Category')) {
             return true;
@@ -44,24 +41,18 @@ class CategoryPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, category $category): bool
+    public function update(User $user, category $category)
     {
-        if ($user->hasPermissionTo('Edit Category')) {
-            return true;
-        }
-        return false;
+        
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, category $category): bool
+    public function delete(User $user, category $category)
     {
         //
-        if ($user->hasPermissionTo('Delete Category')) {
-            return true;
-        }
-        return false;
+        
     }
 
     /**
