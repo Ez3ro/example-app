@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}" media="all">
     <link href="{{ asset('assets/css/brand.css') }}" rel="stylesheet" media="all">
     <link href="{{ asset('assets/css/solid.css') }}" rel="stylesheet" media="all">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+    @vite(['resources/css/app.css', 'resources/js/app.js']);
     
     <!-- Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
@@ -158,7 +159,10 @@
         </form>
         <div class="d-flex flex-1 d-block d-md-none">
             <a href="#" class="sidebar-toggle ml-3">
-                <i data-feather="menu"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="skyblue" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                  </svg>
+                  
             </a>
             
         </div>
@@ -247,7 +251,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
     <script src=" {{ asset('assets/js/vendor.js') }}"></script>
     <script src="{{ asset('assets/js/streaming_live.js') }}"></script>
-   
+   @livewireScripts
     
 </body>
 </html>

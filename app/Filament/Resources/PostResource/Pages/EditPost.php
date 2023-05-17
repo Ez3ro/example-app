@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PostResource\Pages;
 
 use App\Filament\Resources\PostResource;
+use App\Models\StreamView;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -21,4 +22,6 @@ class EditPost extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+ 
 }

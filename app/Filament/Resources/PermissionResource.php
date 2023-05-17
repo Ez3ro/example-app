@@ -36,7 +36,7 @@ class PermissionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')->searchable(),
                 //
             ])
             ->filters([
@@ -47,7 +47,7 @@ class PermissionResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+               
             ]);
     }
     

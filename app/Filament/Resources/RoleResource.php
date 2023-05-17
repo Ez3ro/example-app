@@ -42,8 +42,8 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('permissions.name'),
+                Tables\Columns\TextColumn::make('name')->searchable(),
+                Tables\Columns\TextColumn::make('permissions.name')->searchable(),
                 //
             ])
             ->filters([
@@ -54,7 +54,7 @@ class RoleResource extends Resource
                 Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+            
             ]);
     }
     

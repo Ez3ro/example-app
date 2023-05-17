@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\category;
 use App\Models\Post;
+use App\Models\StreamView;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -47,7 +48,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Post $post, Request $request)
     {
         if(!$post->active || $post->published_at > Carbon::now()){
             throw new NotFoundHttpException();
@@ -68,6 +69,18 @@ class PostController extends Controller
         ->orderBy('published_at', 'desc')
         ->limit(1)
         ->first();
+
+        $user = $request->user();
+
+        StreamView::create([  'ip_address' => $request->ip(),
+        'user_agent' => $request->userAgent(),
+        'post_id' => $post->id,
+        'user_id' => $user ? $user->id : null,
+        
+        
+        ]
+          
+    );
 
 
         return view('post.view', compact('post', 'prev', 'next'));

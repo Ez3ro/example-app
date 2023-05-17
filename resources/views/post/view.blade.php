@@ -56,7 +56,10 @@
                         <div>
                             {!! $post->body !!}
                         </div>
+                        
                     </div>
+                    <livewire:like-dislike :post="$post"/>
+                 
                 </article>
     
                 <div class="w-full flex pt-6">

@@ -85,13 +85,13 @@ class PostResource extends Resource
             ->columns([
                 
                 Tables\Columns\ImageColumn::make('thumbnail'),
-                Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('title')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('streamKey'),
                 
                 Tables\Columns\IconColumn::make('active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('published_at')
+                Tables\Columns\TextColumn::make('published_at')->sortable()
                     ->dateTime(),
             ])
             ->filters([
@@ -100,6 +100,7 @@ class PostResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -119,6 +120,7 @@ class PostResource extends Resource
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
+            'view' => Pages\ViewPost::route('/{record}/view'),
         ];
     }
 
