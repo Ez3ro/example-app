@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SiteController;
+use App\Events\SendMessage;
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +22,17 @@ Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('/transmisiones-en-vivo', [SiteController:: class,'live'])->name( name: 'live-streams');
 Route::get('/category/{category:slug}', [PostController:: class,'byCategory'])->name( name: 'by-category');
 Route::get('/{post:slug}', [PostController:: class,'show'])->name( name: 'view');
+
+Route::post("/chat/send", function(Request $request){
+    $message = $request->input("message", null);
+    $name = $request->input("name", null);
+    $time = (new DateTime(now()))->format(DateTime::ATOM);
+    if ($name == null) {
+        $name = "Anonymous";
+    }
+
+    SendMessage::dispatch($name,$message,$time);
+
+Route::get('/sockets/connect', 'SocketController@connect');
+
+});

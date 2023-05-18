@@ -1,8 +1,7 @@
 <x-app-layout>
     
             <!-- Post Section -->
-            <section class="w-4/5 col items-center px-3">
-    
+            <section class="col-8 items-center px-3">
                 <article class="w-full shadow my-4">
                     <!-- Article Image -->
 
@@ -58,7 +57,6 @@
                         </div>
                     </div>
                 </article>
-    
                 <div class="w-full flex pt-6">
                     <div class="w-1/2">
                     @if($prev)
@@ -76,11 +74,10 @@
                     </a>
                     @endif
                     </div>
-                </div>
-    
-               
-    
+                </div>    
             </section>
+
+            @include('chat.chat')
             
 
 </x-app-layout>

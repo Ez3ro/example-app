@@ -7,6 +7,8 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use BeyondCode\LaravelWebSockets\Apps\AppProvider;
+use BeyondCode\LaravelWebSockets\Dashboard\DashboardLogger;
 
 class PostController extends Controller
 {
@@ -47,7 +49,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Post $post, AppProvider $appProvider)
     {
         if(!$post->active || $post->published_at > Carbon::now()){
             throw new NotFoundHttpException();
@@ -69,8 +71,17 @@ class PostController extends Controller
         ->limit(1)
         ->first();
 
+        $data = [
+            "port" => env('LARAVEL_WEBSOCKET_PORT'),
+            "host" => env('LARAVEL_WEBSOCKET_HOST'),
+            "cluster" => env('PUSHER_APP_CLUSTER'),
+            "authEndpoint" => "/api/sockets/connect",
+            "logChannel" => DashboardLogger::LOG_CHANNEL_PREFIX,
+            "apps" => $appProvider->all()
+        ];
 
-        return view('post.view', compact('post', 'prev', 'next'));
+
+        return view('post.view', compact('post', 'prev', 'next'), $data);
 
     }
 
