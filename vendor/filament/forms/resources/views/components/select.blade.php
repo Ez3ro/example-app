@@ -29,7 +29,7 @@
             <x-dynamic-component :component="$icon" class="w-5 h-5" />
         @endif
 
-        @if ($label = $getPrefixLabel())
+        @if (filled($label = $getPrefixLabel()))
             <span @class($affixLabelClasses)>
                 {{ $label }}
             </span>
@@ -96,9 +96,11 @@
                         optionsLimit: @js($getOptionsLimit()),
                         placeholder: @js($getPlaceholder()),
                         position: @js($getPosition()),
+                        isPlaceholderSelectionDisabled: @js($isPlaceholderSelectionDisabled()),
                         searchDebounce: @js($getSearchDebounce()),
                         searchingMessage: @js($getSearchingMessage()),
                         searchPrompt: @js($getSearchPrompt()),
+                        searchableOptionFields: @js($getSearchableOptionFields()),
                         state: $wire.{{ $applyStateBindingModifiers('entangle(\'' . $getStatePath() . '\')') }},
                     })"
                     x-on:keydown.esc="select.dropdown.isActive && $event.stopPropagation()"
@@ -124,7 +126,7 @@
             @endif
         </div>
 
-        @if ($label = $getSuffixLabel())
+        @if (filled($label = $getSuffixLabel()))
             <span @class($affixLabelClasses)>
                 {{ $label }}
             </span>
