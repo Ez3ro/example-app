@@ -1,19 +1,38 @@
-    
-{{-- <link href="{{ asset('assets/css/chat.css') }}" rel="stylesheet"> --}}
+{{-- 
+    Mike 
+    last updated: 05/20/2023 9:23 localtime
+    Created a RANDOM NAME GENERATOR 
+    line : 13
+--}}
+
+
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js" integrity="sha512-BAMfk70VjqBkBIyo9UTRLl3TBJ3M0c6uyy2VMUrq370bWs7kchLNN9j1WiJQus9JAJVqcriIUX859JOm12LWtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{{-- Create a random name --}}
+<?php 
+$faker = Faker\Factory::create();
+$adjective = $faker->word;
+$noun = $faker->word;
+$codename = $adjective . ' ' . $noun;
+?>
 
+{{-- UI --}}
 <section class="w-25 p-3 col-4">
 <div class="w-full" id="app" >
     <a class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-      <span class="fs-5 fw-semibold pr-2">
-        <span v-if="connected == null" class="translate-middle p-2 bg-danger border border-light rounded-circle float-left"> </span>
-        <span v-if="connected == true" class="translate-middle p-2 bg-success border border-light rounded-circle float-left"> </span> 
-
+      <span class="fw-semibold m-0 p-0">
+        <div v-if="connected == false">
+            <span class="translate-middle p-1.5 bg-danger border rounded-circle float-left mt-1 mr-2"></span> 
+            Error Server
+        </div>
+        <div v-if="connected == true">
+            <span class="translate-middle p-1.5 bg-success border rounded-circle float-left  mt-1 mr-2"></span> 
+            Live Chat 
+        </div>
         </span> 
-        Live Chat 
+        
     </a>
     <div class="overflow-auto py-3 lh-tight bg-light pt-2 pb-2" style="height:35rem"  >
         <p class="col-12"  v-for="(message, index) in incomingMessages" id="messageBody">
@@ -25,9 +44,9 @@
     {{-- Input Message --}}
     <div>
         {{-- hide name and generate code --}}
-    <form class="d-none" >
+    <form class="d-none">
         <label>Name</label>
-        <input class="form-control form-control-sm" placeholder="Name" v-model="name">
+        <input class="form-control form-control-sm" placeholder="Name" v-model="name" value="">
         <button v-if="connected === false" v-on:click="connect()" type="button" class="mr-2 btn btn-sm btn-primary w-100">
             Connect
         </button>
@@ -62,6 +81,8 @@
 </div>
 </section>
 
+
+{{-- VUE code to push the data to websocket --}}
 <script>
     new Vue({
       "el": "#app",
@@ -76,7 +97,7 @@
           port: "{{ $port }}",
           state: null,
           message: null,
-          name: null,
+          name: {!! json_encode($codename) !!},
           formError: false,
           incomingMessages: [
           ],
@@ -165,7 +186,7 @@
             }
            this.message = null;
             // container.scrollBottom = container.scrollHeight;
-          }          
+          }
       }
       });
 </script>
