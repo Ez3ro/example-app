@@ -1,7 +1,12 @@
 <x-app-layout>
     
             <!-- Post Section -->
+<<<<<<< HEAD
             <section class="col-8 items-center px-3">
+=======
+            <section class=" container items-center px-3">
+    
+>>>>>>> main
                 <article class="w-full shadow my-4">
                     <!-- Article Image -->
 
@@ -45,9 +50,9 @@
 
 
                     <div class="bg-white flex flex-col justify-start p-6">
-                        @foreach ($post->categories as $category )
-                        <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">{{$category->title}}</a>
-                        @endforeach
+                        <span>@foreach ($post->categories as $category )
+                        <a href="{{ route('by-category', $category ) }}" class="text-blue-700 text-sm font-bold uppercase pb-4"> #{{$category->title}}</a>
+                        @endforeach</span>
                         <h1 class="text-3xl font-bold hover:text-gray-700 pb-4">{{$post->title}}</h1>
                         <p href="#" class="text-sm pb-8">
                             By <a href="#" class="font-semibold hover:text-gray-800">{{$post->user->name}}</a>, Published on {{$post->getFormattedDate()}}
@@ -55,7 +60,10 @@
                         <div>
                             {!! $post->body !!}
                         </div>
+                        
                     </div>
+                    <livewire:like-dislike :post="$post"/>
+                 
                 </article>
                 <div class="w-full flex pt-6">
                     <div class="w-1/2">

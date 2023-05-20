@@ -17,13 +17,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Filament\Forms\Components\FileUpload;
+use Illuminate\Support\Facades\Auth;
 use Masterminds\HTML5;
+
 
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-status-online';
 
     protected static ?string $navigationGroup = 'Content';
 
@@ -46,6 +48,7 @@ class PostResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(2048),]),
+                    
 
                     
                     Forms\Components\TextInput::make('streamKey')
@@ -68,6 +71,7 @@ class PostResource extends Resource
                 ->required(),
             Forms\Components\Select::make('category_id')
                 ->multiple()
+                ->preload()
                 ->relationship('categories', 'title')
                 ->required(),])
                
@@ -81,13 +85,13 @@ class PostResource extends Resource
             ->columns([
                 
                 Tables\Columns\ImageColumn::make('thumbnail'),
-                Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('title')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('streamKey'),
                 
                 Tables\Columns\IconColumn::make('active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('published_at')
+                Tables\Columns\TextColumn::make('published_at')->sortable()
                     ->dateTime(),
             ])
             ->filters([
@@ -96,6 +100,7 @@ class PostResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -115,6 +120,17 @@ class PostResource extends Resource
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
+            'view' => Pages\ViewPost::route('/{record}/view'),
         ];
-    }    
+    }
+
+    public static function getEloquentQuery(): Builder
+{
+                // @ts-ignore
+    if(!Auth::user()->hasRole('admin')){
+        return parent::getEloquentQuery()->whereBelongsTo(auth()->user());
+    }
+     return parent::getEloquentQuery()->where('id', '>', 0);
+}
+ 
 }
