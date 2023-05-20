@@ -14,6 +14,7 @@ yarn-error.log
 /.idea
 /.vscode
 vendor/
-npm_modules/
+node_modules/
+.env
 .env
 .env
