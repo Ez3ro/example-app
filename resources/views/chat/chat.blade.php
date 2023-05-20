@@ -4,37 +4,43 @@
     Created a RANDOM NAME GENERATOR 
     line : 13
 --}}
-
-
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.14/vue.min.js" integrity="sha512-BAMfk70VjqBkBIyo9UTRLl3TBJ3M0c6uyy2VMUrq370bWs7kchLNN9j1WiJQus9JAJVqcriIUX859JOm12LWtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="{{ asset('assets/css/chat.css') }}">
+<script src="script">
+    
+</script>
 {{-- Create a random name --}}
 <?php 
-$faker = Faker\Factory::create();
-$adjective = $faker->word;
-$noun = $faker->word;
-$codename = $adjective . ' ' . $noun;
+    $faker = Faker\Factory::create();
+    $adjective = $faker->word;
+    $noun = $faker->word;
+    $codename = $adjective . ' ' . $noun;
 ?>
 
 {{-- UI --}}
 <section class="w-25 p-3 col-4">
-<div class="w-full" id="app" >
+<fieldset class="w-full" id="app" :disabled="isDisabled">
     <a class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-      <span class="fw-semibold m-0 p-0">
-        <div v-if="connected == false">
-            <span class="translate-middle p-1.5 bg-danger border rounded-circle float-left mt-1 mr-2"></span> 
-            Error Server
+        <div v-if="isDisabled == false">
+            <div v-if="connected == false">
+                <span class="translate-middle p-1.5 bg-danger border rounded-circle float-left mt-1 mr-2"></span> 
+                Error Server
+            </div>
+            <div v-if="connected == true">
+                <span class="translate-middle p-1.5 bg-success border rounded-circle float-left  mt-1 mr-2"></span> 
+                Live Chat 
+            </div>
         </div>
-        <div v-if="connected == true">
-            <span class="translate-middle p-1.5 bg-success border rounded-circle float-left  mt-1 mr-2"></span> 
-            Live Chat 
+        <div v-if="isDisabled == true">
+            <h5>Talk to other viewers!</h5>
+            <small>Login and join real-time chat! </small>
         </div>
-        </span> 
         
     </a>
-    <div class="overflow-auto py-3 lh-tight bg-light pt-2 pb-2" style="height:35rem"  >
+    <div class="scrollbar overflow-auto py-3 lh-tight bg-light pt-2 pb-2 " style="height:35rem"  >
         <p class="col-12"  v-for="(message, index) in incomingMessages" id="messageBody">
             (@{{ message.time }}) <b>@{{ message.name }}</b>
             @{{ message.message }}
@@ -78,7 +84,8 @@ $codename = $adjective . ' ' . $noun;
         </div>
       </div>
     </form>
-</div>
+</fieldset>
+
 </section>
 
 
@@ -87,6 +94,8 @@ $codename = $adjective . ' ' . $noun;
     new Vue({
       "el": "#app",
       "data": {
+          isDisabled:false,
+          logIn: false,
           connected: false,
           pusher: null, // something here
           app: null,
@@ -138,7 +147,7 @@ $codename = $adjective . ' ' . $noun;
                   this.formError = true;
               });
 
-              this.subscribeToAllChannels();       
+              this.subscribeToAllChannels();  
    
       },
       methods: {
@@ -161,11 +170,13 @@ $codename = $adjective . ' ' . $noun;
                           messageData.time = utcDate.toLocaleString();
                           inst.incomingMessages.push(messageData);
                       }
+                      this.scrollToEnd();
                   }
 
               };
 
               channel.bind("log-message", callback);  
+              
           },
           disconnect() {
           this.connected = false;
@@ -185,8 +196,13 @@ $codename = $adjective . ' ' . $noun;
                 });
             }
            this.message = null;
-            // container.scrollBottom = container.scrollHeight;
-          }
+           this.scrollToEnd();     
+          },
+          scrollToEnd: function() {    	
+            var container = this.$el.querySelector(".scrollbar");
+            container.scrollTop = container.scrollHeight+30;
+            }
       }
       });
+
 </script>
