@@ -32,6 +32,12 @@ return [
             'capacity' => null,
             'enable_client_messages' => false,
             'enable_statistics' => true,
+            'events' => [
+                [
+                    'name' => 'WebsocketEvent',
+                    'class' => \App\WebSockets\Events\MyWebSocketEventHandler::class,
+                ],
+            ],
         ],
     ],
 
@@ -139,4 +145,10 @@ return [
      * `ChannelManager` interface provided by this package.
      */
     'channel_manager' => \BeyondCode\LaravelWebSockets\WebSockets\Channels\ChannelManagers\ArrayChannelManager::class,
+
+    /*
+    * Configure BeyondCode WebSockets to use the logging channel: In the config/websockets.php file, specify the logging channel to be used for WebSockets by setting the log option to 'websockets':
+    */ 
+
+    'log' => 'websockets',
 ];

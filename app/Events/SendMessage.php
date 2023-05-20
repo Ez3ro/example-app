@@ -9,6 +9,8 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use BeyondCode\LaravelWebSockets\WebSockets\Event;
+use Illuminate\Support\Facades\Log;
 
 class SendMessage implements ShouldBroadcast
 {
@@ -26,6 +28,12 @@ class SendMessage implements ShouldBroadcast
          $this->name =  $name;
          $this->message = $message;
          $this->time = $time;
+                
+        Log::channel('websockets')->debug('WebSocket event received', [
+            "name" =>$this->name ,
+            "message" => $this->message,
+            "time" => $this->time
+        ]);
     }
 
     public function broadcastWith(){
