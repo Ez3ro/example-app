@@ -20,7 +20,7 @@
 ?>
 
 {{-- UI --}}
-<section class="w-25 p-3 col-4">
+<section class="w-25 p-3 col-2">
 <fieldset class="w-full" id="app" :disabled="isDisabled">
     <a class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
       <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
@@ -79,7 +79,7 @@
       </div>
       <div class="row text-right">
         <div class="col-lg">
-          <button type="button" v-on:click="sendMessage()" class="btn btn-small btn-primary w-100">Send
+          <button type="button" v-on:click="sendMessage()" class="btn btn-sm btn-primary w-100 noHover">Send
             Message</button>
         </div>
       </div>

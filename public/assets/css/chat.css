@@ -41,3 +41,10 @@ Not supports in Firefox and IE */
   .hovered {
     opacity: 0.5;
   }
+  
+ .noHover {
+    /* background: #007bff linear-gradient(180deg, #258efe, #007bff) repeat-x; */
+    border-color: none;
+    background-color: #007bff;
+    background-image: none;
+}
