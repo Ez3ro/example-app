@@ -16,7 +16,15 @@
     $faker = Faker\Factory::create();
     $adjective = $faker->word;
     $noun = $faker->word;
-    $codename = isset(Auth::user()->name)?Auth::user()->name:'';
+
+    if(isset(Auth::user()->name)){
+        $codename = Auth::user()->name;
+        $isDisabled = false;
+    }else{
+        $codename = "";
+        $isDisabled = true;
+
+    }
 ?>
 
 {{-- UI --}}
@@ -94,7 +102,7 @@
     new Vue({
       "el": "#app",
       "data": {
-          isDisabled:false,
+          isDisabled:{!! json_encode($isDisabled) !!},
           logIn: false,
           connected: false,
           pusher: null, // something here
