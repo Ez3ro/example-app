@@ -1,12 +1,7 @@
 <x-app-layout>
     
             <!-- Post Section -->
-<<<<<<< HEAD
-            <section class="col-8 items-center px-3">
-=======
             <section class=" container items-center px-3">
-    
->>>>>>> main
                 <article class="w-full shadow my-4">
                     <!-- Article Image -->
 

@@ -18,11 +18,8 @@
         "vite": "^4.3.5"
     },
     "dependencies": {
-<<<<<<< HEAD
         "faker": "^5.5.3",
-=======
         "@heroicons/react": "^2.0.18",
->>>>>>> main
         "video.js": "^8.3.0"
     }
 }

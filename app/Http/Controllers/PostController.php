@@ -50,11 +50,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-<<<<<<< HEAD
-    public function show(Post $post, AppProvider $appProvider)
-=======
-    public function show(Post $post, Request $request)
->>>>>>> main
+    public function show(Post $post, AppProvider $appProvider ,Request $request)
     {
         if(!$post->active || $post->published_at > Carbon::now()){
             throw new NotFoundHttpException();
@@ -76,7 +72,6 @@ class PostController extends Controller
         ->limit(1)
         ->first();
 
-<<<<<<< HEAD
         $data = [
             "port" => env('LARAVEL_WEBSOCKET_PORT'),
             "host" => env('LARAVEL_WEBSOCKET_HOST'),
@@ -85,21 +80,14 @@ class PostController extends Controller
             "logChannel" => DashboardLogger::LOG_CHANNEL_PREFIX,
             "apps" => $appProvider->all()
         ];
-=======
+
         $user = $request->user();
 
         StreamView::create([  'ip_address' => $request->ip(),
         'user_agent' => $request->userAgent(),
         'post_id' => $post->id,
-        'user_id' => $user ? $user->id : null,
-        
-        
-        ]
-          
-    );
-
->>>>>>> main
-
+        'user_id' => $user ? $user->id : null, 
+        ]);
 
         return view('post.view', compact('post', 'prev', 'next'), $data);
 
