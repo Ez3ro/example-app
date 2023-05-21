@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Events;
+
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use BeyondCode\LaravelWebSockets\WebSockets\Event;
+use Illuminate\Support\Facades\Log;
+
+class SendMessage implements ShouldBroadcast
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+    public string $name;
+    public string $message;
+    public string $time;
+
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(string $name,string $message,string $time)
+    {
+         $this->name =  $name;
+         $this->message = $message;
+         $this->time = $time;
+                
+        Log::channel('websockets')->debug('WebSocket event received', [
+            "name" =>$this->name ,
+            "message" => $this->message,
+            "time" => $this->time
+        ]);
+    }
+
+    public function broadcastWith(){
+        return [
+            "name" =>$this->name ,
+            "message" => $this->message,
+            "time" => $this->time
+        ];
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return array<int, \Illuminate\Broadcasting\Channel>
+     */
+    public function broadcastOn()
+    {
+        return new Channel('SendMessageEvent');
+    }
+}

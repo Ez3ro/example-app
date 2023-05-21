@@ -52,6 +52,13 @@ return [
     */
 
     'channels' => [
+        'websockets' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/websockets.log'),
+            'level' => 'debug',
+            'days' => 14,
+        ],
+        
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],

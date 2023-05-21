@@ -28151,9 +28151,11 @@ var select_default = (Alpine) => {
     optionsLimit,
     placeholder,
     position,
+    isPlaceholderSelectionDisabled,
     searchDebounce,
     searchingMessage,
     searchPrompt,
+    searchableOptionFields,
     state: state2
   }) => {
     return {
@@ -28176,12 +28178,13 @@ var select_default = (Alpine) => {
           noResultsText: noSearchResultsMessage,
           placeholderValue: placeholder,
           position: position ?? "auto",
-          removeItemButton: true,
+          removeItemButton: !isPlaceholderSelectionDisabled,
           renderChoiceLimit: optionsLimit,
-          searchFields: ["label"],
+          searchFields: searchableOptionFields ?? ["label"],
           searchPlaceholderValue: searchPrompt,
           searchResultLimit: optionsLimit,
-          shouldSort: false
+          shouldSort: false,
+          searchFloor: hasDynamicSearchResults ? 0 : 1
         });
         await this.refreshChoices({withInitialOptions: true});
         if (![null, void 0, ""].includes(this.state)) {
@@ -28216,14 +28219,11 @@ var select_default = (Alpine) => {
         if (hasDynamicSearchResults) {
           this.$refs.input.addEventListener("search", async (event) => {
             let search = event.detail.value?.trim();
-            if ([null, void 0, ""].includes(search)) {
-              return;
-            }
             this.isSearching = true;
             this.select.clearChoices();
             await this.select.setChoices([
               {
-                label: searchingMessage,
+                label: [null, void 0, ""].includes(search) ? loadingMessage : searchingMessage,
                 value: "",
                 disabled: true
               }

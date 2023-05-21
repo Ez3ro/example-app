@@ -24,8 +24,8 @@ class Sidebar extends Component
     public function render(): View|Closure|string
     {
         $categories = category::query()
-            ->join('category_post', 'categories.id', '=', 'category_post.category_id')
             ->select ('categories.title', 'categories.slug', DB::raw('count(*) as total'))
+            ->join('category_post', 'categories.id', '=', 'category_post.category_id')
             ->groupBy ('categories.id')
             ->orderByDesc('total')
             ->limit (5)

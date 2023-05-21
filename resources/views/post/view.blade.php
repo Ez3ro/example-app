@@ -1,7 +1,7 @@
 <x-app-layout>
-    
+        <div class="row">
             <!-- Post Section -->
-            <section class=" container items-center px-3">
+            <section class="col-9 px-3 ml-9 pl-5" >
     
                 <article class="w-full shadow my-4">
                     <!-- Article Image -->
@@ -61,7 +61,6 @@
                     <livewire:like-dislike :post="$post"/>
                  
                 </article>
-    
                 <div class="w-full flex pt-6">
                     <div class="w-1/2">
                     @if($prev)
@@ -79,11 +78,11 @@
                     </a>
                     @endif
                     </div>
-                </div>
-    
-               
-    
+                </div>    
             </section>
+
+            @include('chat.chat')
+        </div>
             
 
 </x-app-layout>
