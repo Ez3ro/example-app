@@ -16,7 +16,7 @@
     $faker = Faker\Factory::create();
     $adjective = $faker->word;
     $noun = $faker->word;
-    $codename = $adjective . ' ' . $noun;
+    $codename = isset(Auth::user()->name)?Auth::user()->name:'';
 ?>
 
 {{-- UI --}}
