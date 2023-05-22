@@ -16,77 +16,82 @@
     $faker = Faker\Factory::create();
     $adjective = $faker->word;
     $noun = $faker->word;
-    $codename = $adjective . ' ' . $noun;
+
+    if(isset(Auth::user()->name)){
+        $codename = Auth::user()->name;
+        $isDisabled = false;
+    }else{
+        $codename = "";
+        $isDisabled = true;
+
+    }
 ?>
 
 {{-- UI --}}
-<section class="w-25 p-3 col-2">
-<fieldset class="w-full" id="app" :disabled="isDisabled">
-    <a class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-      <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-        <div v-if="isDisabled == false">
-            <div v-if="connected == false">
-                <span class="translate-middle p-1.5 bg-danger border rounded-circle float-left mt-1 mr-2"></span> 
-                Error Server
+<div class="card"> 
+    <fieldset id="app" :disabled="isDisabled">
+        <a class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+            <div v-if="isDisabled == false">
+                <div v-if="connected == false">
+                    <span class="translate-middle p-1.5 bg-danger border rounded-circle float-left mt-1 mr-2"></span> 
+                    Error Server
+                </div>
+                <div v-if="connected == true">
+                    <span class="translate-middle p-1.5 bg-success border rounded-circle float-left  mt-1 mr-2"></span> 
+                    Live Chat 
+                </div>
             </div>
-            <div v-if="connected == true">
-                <span class="translate-middle p-1.5 bg-success border rounded-circle float-left  mt-1 mr-2"></span> 
-                Live Chat 
+            <div v-if="isDisabled == true">
+                <h5>Talk to other viewers!</h5>
+                <small>Login and join real-time chat! </small>
+            </div>
+            
+        </a>
+        <div class="scrollbar overflow-auto py-3 lh-tight bg-light pt-2 pb-2 " style="height:35rem"  >
+            <p class="col-12"  v-for="(message, index) in incomingMessages" id="messageBody">
+                (@{{ message.time }}) <b>@{{ message.name }}</b>
+                @{{ message.message }}
+            </p>
+        </div>
+
+        {{-- Input Message --}}
+        <div>
+            {{-- hide name and generate code --}}
+        <form class="d-none">
+            <label>Name</label>
+            <input class="form-control form-control-sm" placeholder="Name" v-model="name" value="">
+            <button v-if="connected === false" v-on:click="connect()" type="button" class="mr-2 btn btn-sm btn-primary w-100">
+                Connect
+            </button>
+            <button v-if="connected === true" v-on:click="disconnect()" type="button" class="mr-2 btn btn-sm btn-danger w-100">
+                Disconnect
+            </button>
+        </form>
+
+
+
+        <form>
+        </div>
+        <div class="row p-2">
+            <div class="col-12 text-white" v-show="formError === true">
+            <div class="bg-danger p-2 mb-2">
+                <p class="p-0 m-0"><b>Error:</b> Invalid message.</p>
+            </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <textarea v-model="message" placeholder="Your message ..." class="form-control border-bottom-1 mb-0" rows="3" id="inpMessage" ></textarea>
+                </div>
+            </div>
+            <div class="col-lg">
+            <button type="button" v-on:click="sendMessage()" class="btn btn-sm btn-primary w-100 mt-0 noHover">Send
+                Message</button>
             </div>
         </div>
-        <div v-if="isDisabled == true">
-            <h5>Talk to other viewers!</h5>
-            <small>Login and join real-time chat! </small>
-        </div>
-        
-    </a>
-    <div class="scrollbar overflow-auto py-3 lh-tight bg-light pt-2 pb-2 " style="height:35rem"  >
-        <p class="col-12"  v-for="(message, index) in incomingMessages" id="messageBody">
-            (@{{ message.time }}) <b>@{{ message.name }}</b>
-            @{{ message.message }}
-        </p>
-    </div>
+        </form>
+    </fieldset>
 
-    {{-- Input Message --}}
-    <div>
-        {{-- hide name and generate code --}}
-    <form class="d-none">
-        <label>Name</label>
-        <input class="form-control form-control-sm" placeholder="Name" v-model="name" value="">
-        <button v-if="connected === false" v-on:click="connect()" type="button" class="mr-2 btn btn-sm btn-primary w-100">
-            Connect
-        </button>
-        <button v-if="connected === true" v-on:click="disconnect()" type="button" class="mr-2 btn btn-sm btn-danger w-100">
-            Disconnect
-        </button>
-    </form>
-
-
-
-    <form>
-    </div>
-      <div class="row mt-2">
-        <div class="col-12 text-white" v-show="formError === true">
-          <div class="bg-danger p-2 mb-2">
-            <p class="p-0 m-0"><b>Error:</b> Invalid message.</p>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="form-group">
-            <textarea v-model="message" placeholder="Your message ..." class="form-control" rows="3" id="inpMessage"></textarea>
-          </div>
-        </div>
-      </div>
-      <div class="row text-right">
-        <div class="col-lg">
-          <button type="button" v-on:click="sendMessage()" class="btn btn-sm btn-primary w-100 noHover">Send
-            Message</button>
-        </div>
-      </div>
-    </form>
-</fieldset>
-
-</section>
+</div>
 
 
 {{-- VUE code to push the data to websocket --}}
@@ -94,7 +99,7 @@
     new Vue({
       "el": "#app",
       "data": {
-          isDisabled:false,
+          isDisabled:{!! json_encode($isDisabled) !!},
           logIn: false,
           connected: false,
           pusher: null, // something here
@@ -176,6 +181,8 @@
               };
 
               channel.bind("log-message", callback);  
+
+            console.log(channel);
               
           },
           disconnect() {

@@ -52,9 +52,9 @@ class PostController extends Controller
      */
     public function show(Post $post, AppProvider $appProvider ,Request $request)
     {
-        if(!$post->active || $post->published_at > Carbon::now()){
-            throw new NotFoundHttpException();
-        }
+        // if(!$post->active || $post->published_at > Carbon::now()){
+        //     throw new NotFoundHttpException();
+        // }
 
         $next = Post::query()
         ->where('active', true )
@@ -71,10 +71,10 @@ class PostController extends Controller
         ->orderBy('published_at', 'desc')
         ->limit(1)
         ->first();
-
+        
         $data = [
-            "port" => env('LARAVEL_WEBSOCKET_PORT'),
-            "host" => env('LARAVEL_WEBSOCKET_HOST'),
+            "port" => env('PUSHER_PORT'),
+            "host" => env('PUSHER_HOST'),
             "cluster" => env('PUSHER_APP_CLUSTER'),
             "authEndpoint" => "/api/sockets/connect",
             "logChannel" => DashboardLogger::LOG_CHANNEL_PREFIX,

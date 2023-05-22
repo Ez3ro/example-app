@@ -8,8 +8,8 @@ return [
      * Set a custom dashboard configuration
      */
     'dashboard' => [
-        'port' =>  6001,
-        'host' => '127.0.0.1',
+        'port' =>  env('PUSHER_APP_PORT'),
+        'host' => env('PUSHER_APP_HOST'),
     ],
 
     /*
@@ -24,8 +24,8 @@ return [
      */
     'apps' => [
         [
-            'port' =>  6001,
-            'host' => '127.0.0.1',
+            'port' =>  env('PUSHER_APP_PORT'),
+            'host' => env('PUSHER_APP_HOST'),
             'id' => env('PUSHER_APP_ID'),
             'name' => env('APP_NAME'),
             'key' => env('PUSHER_APP_KEY'),
