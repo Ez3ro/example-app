@@ -1,9 +1,10 @@
 <x-app-layout>
+<div class="container">
+    <div class="container-fluid">
+        <!-- Post Section -->
         <div class="row">
-            <!-- Post Section -->
-            <section class="col-9 px-3 ml-9 pl-5" >
-    
-                <article class="w-full shadow my-4">
+            <section class="col-9">
+                <article class="shadow">
                     <!-- Article Image -->
 
                     <video id="video" class="w-full"controls poster="/storage/{{$post->thumbnail}}" ></video>
@@ -80,9 +81,12 @@
                     </div>
                 </div>    
             </section>
-
-            @include('chat.chat')
+            <section class="col-3">
+                @include('chat.chat')
+            </section>
         </div>
+    </div>
+</div>
             
 
 </x-app-layout>
